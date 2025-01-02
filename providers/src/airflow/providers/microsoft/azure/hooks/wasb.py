@@ -290,7 +290,7 @@ class WasbHook(BaseHook):
         container_name: str,
         prefix: str | None = None,
         include: list[str] | None = None,
-        endswith: str = "",
+        delimiter: str = "",
         **kwargs,
     ) -> list:
         """
@@ -307,8 +307,9 @@ class WasbHook(BaseHook):
         container = self._get_container_client(container_name)
         blob_list = []
         blobs = container.list_blobs(name_starts_with=prefix, include=include, **kwargs)
+        #todo ensure no breaking changes for 'endswith' parameter name
         for blob in blobs:
-            if blob.name.endswith(endswith):
+            if blob.name.endswith(delimiter):
                 blob_list.append(blob.name)
         return blob_list
 
